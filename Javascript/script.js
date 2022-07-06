@@ -6,29 +6,50 @@
 
 // document.write(favoriteFood);
 
+//pokemon variable
 const pokemonList = [
-    {name: 'Bulbasaur',
-    height: 0.7,
-    types: ['grass', 'poison']
+    {
+        name: 'Bulbasaur',
+        height: 0.7,
+        types: ['grass', 'poison']
     },
-    {name: 'Charizard',
-    height: 1.7,
-    types: ['fire', 'flying']
+    {
+        name: 'Charizard',
+        height: 1.7,
+        types: ['fire', 'flying']
     },
-    {name: 'Arcinine',
-    height: 1.9,
-    types: ['fire']
+    {
+        name: 'Arcinine',
+        height: 1.9,
+        types: ['fire']
     },
-    {name: 'Alakazam',
-    height: 1.5,
-    types: ['psychic']
+    {  
+        name: 'Alakazam',
+        height: 1.5,
+        types: ['psychic']
     },
-    {name: 'Zapdos',
-    height: 1.6,
-    types: ['electric', 'flying']
+    {
+        name: 'Zapdos',
+        height: 1.6,
+        types: ['electric', 'flying']
     },
-    {name: 'Kyogre',
-    height: 4.5,
-    types: ['water']
+    {
+        name: 'Kyogre',
+        height: 4.5,
+        types: ['water']
     },
-]
+];
+
+//for loop to iterate through object
+for (let i = 0; i < pokemonList.length; i++) {
+    //declairing variables in for loop
+    let height = pokemonList[i].height;
+    let name = pokemonList[i].name;
+    let string = `${name} (${height})`;
+    //conditional statment for largest height
+    if (pokemonList[i].height > 4.0) {
+        string += ' - Wow that is big!!!';
+    }
+    //final for loop execution
+    document.write(string + '<br><br>');
+}
