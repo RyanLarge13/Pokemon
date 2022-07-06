@@ -45,7 +45,7 @@ for (let i = 0; i < pokemonList.length; i++) {
     //declairing variables in for loop
     let height = pokemonList[i].height;
     let name = pokemonList[i].name;
-    let string = `${name} (${height})`;
+    let string = `${name} (height: ${height})`;
     //conditional statment for largest height
     if (pokemonList[i].height > 4.0) {
         string += ' - Wow that is big!!!';
