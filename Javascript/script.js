@@ -57,11 +57,6 @@ const pokemonList = (() => {
     }
 
     const filter = (string) => {
-        // for (let i in pokemon) {
-        //     if (string === pokemon[i].name) {
-        //         console.log(pokemon[i]);
-        //     }
-        // }
         pokemon.filter(name => {
             if (name.name === string) {
                 console.log(name)
