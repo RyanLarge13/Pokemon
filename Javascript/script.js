@@ -42,7 +42,10 @@ const pokemonList = (() => {
     ];
 
     const add = (obj) => {
-        if (typeof(obj) !== 'object') {
+        let keys1 = Object.keys(pokemon[0]);
+        let keys2 = Object.keys(obj);
+        const equal = keys1.every(value => keys2.find(key => key === value));
+        if (typeof(obj) !== 'object' || !equal) {
             return;
         } else {
         pokemon.push(obj);
@@ -54,11 +57,16 @@ const pokemonList = (() => {
     }
 
     const filter = (string) => {
-        for (let i in pokemon) {
-            if (string === pokemon[i].name) {
-                console.log(pokemon[i]);
+        // for (let i in pokemon) {
+        //     if (string === pokemon[i].name) {
+        //         console.log(pokemon[i]);
+        //     }
+        // }
+        pokemon.filter(name => {
+            if (name.name === string) {
+                console.log(name)
             }
-        }
+        })
     }
 
     return {
