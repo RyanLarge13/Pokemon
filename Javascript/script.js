@@ -1,12 +1,3 @@
-// for lesson 1.1 if by chance you do not see this code before my new commits for the next lesson appear in lesson 1.2 
-
-// alert('Hello World!!!!');
-
-// const favoriteFood = 'Pizza, or maybe burritos.'
-
-// document.write(favoriteFood);
-
-//pokemon variable
 const pokemonList = (() => {
     let pokemon = [
         {
