@@ -7,49 +7,72 @@
 // document.write(favoriteFood);
 
 //pokemon variable
-const pokemonList = [
-    {
-        name: 'Bulbasaur',
-        height: 0.7,
-        types: ['grass', 'poison']
-    },
-    {
-        name: 'Charizard',
-        height: 1.7,
-        types: ['fire', 'flying']
-    },
-    {
-        name: 'Arcinine',
-        height: 1.9,
-        types: ['fire']
-    },
-    {  
-        name: 'Alakazam',
-        height: 1.5,
-        types: ['psychic']
-    },
-    {
-        name: 'Zapdos',
-        height: 1.6,
-        types: ['electric', 'flying']
-    },
-    {
-        name: 'Kyogre',
-        height: 4.5,
-        types: ['water']
-    },
-];
+const pokemonList = (() => {
+    let pokemon = [
+        {
+            name: 'Bulbasaur',
+            height: 0.7,
+            types: ['grass', 'poison']
+        },
+        {
+            name: 'Charizard',
+            height: 1.7,
+            types: ['fire', 'flying']
+        },
+        {
+            name: 'Arcinine',
+            height: 1.9,
+            types: ['fire']
+        },
+        {  
+            name: 'Alakazam',
+            height: 1.5,
+            types: ['psychic']
+        },
+        {
+            name: 'Zapdos',
+            height: 1.6,
+            types: ['electric', 'flying']
+        },
+        {
+            name: 'Kyogre',
+            height: 4.5,
+            types: ['water']
+        },
+    ];
 
-//for loop to iterate through object
-for (let i = 0; i < pokemonList.length; i++) {
-    //declairing variables in for loop
-    let height = pokemonList[i].height;
-    let name = pokemonList[i].name;
-    let string = `${name} (height: ${height})`;
-    //conditional statment for largest height
-    if (height > 4.0) {
-        string += ' - Wow that is big!!!';
+    const add = (obj) => {
+        if (typeof(obj) !== 'object') {
+            return;
+        } else {
+        pokemon.push(obj);
+        }
     }
-    //final for loop execution
-    document.write(string + '<br><br>');
-}
+
+    const getAll = () => {
+        return pokemon;
+    }
+
+    const filter = (string) => {
+        for (let i in pokemon) {
+            if (string === pokemon[i].name) {
+                console.log(pokemon[i]);
+            }
+        }
+    }
+
+    return {
+        add: add,
+        getAll: getAll,
+        filter: filter,
+    }
+})();
+
+pokemonList.getAll().forEach((obj) => {
+    const { name, height } = obj;
+    let str = `${name} (height: ${height})`;
+    if (height > 4.0) {
+        str += ' - Wow! That is big!!';
+    }
+    document.write(`<p>${str}</p><br>`)
+});
