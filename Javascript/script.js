@@ -32,6 +32,7 @@ const pokemonList = (() => {
 
     //creating the list of cards in the dom and buttons to go with them
     const addListItem = (pokemon) => {
+        
         let cardContainer = document.querySelector('.card-container');
         let card = document.createElement('div');
         card.classList.add('card');
@@ -40,6 +41,11 @@ const pokemonList = (() => {
         cardBtn.classList.add('btn');
         cardContainer.appendChild(card);
         card.appendChild(cardBtn);
+
+        //chaining promise for card images on load
+        loadDetails(pokemon).then(() => {
+            card.style.backgroundImage = `url(${pokemon.imageUrl})`; 
+        });
 
         btnEvent(pokemon, cardBtn);
     };
@@ -73,7 +79,6 @@ const pokemonList = (() => {
             item.height = details.height;
             item.types = details.types;
             hideLoadingMessage();
-            // addImage(item.imageUrl);
         }).catch((e) => {
             console.error(e);
         });
@@ -102,19 +107,72 @@ const pokemonList = (() => {
 
     const showDetails = (pokemon) => {
         loadDetails(pokemon).then(() => {
-            console.log(pokemon);
+            //lodeing modal
+            let modalContainer = document.querySelector('.data-container');
+            let modal = document.createElement('div');
+            modal.classList.add('modal');
+            modalContainer.style.position = 'absolute';
+            modalContainer.style.top = '0';
+            modalContainer.style.height = '100vh';
+            //implementing settimeouts for styling puyrposes and easing in elements
+            setTimeout(() => {
+                modalContainer.appendChild(modal);
+                modal.style.backgroundImage = `url(${pokemon.imageUrl})`;
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    let heading = document.createElement('h1');
+                    heading.innerHTML = pokemon.name;
+                    modal.appendChild(heading);
+                    setTimeout(() => {
+                        heading.style.opacity = '1';
+                        //calling appendData function in order to split up code block execution 
+                        appendData(modal, pokemon, modalContainer, heading);
+                    }, 50);
+                }, 50);
+            }, 50);
         });
     };
 
-    // const addImage = (image) => {
-    //     let arr = []
-    //     arr.push(image)
-    //     console.log(arr)
-    //     let cards = document.querySelectorAll('.card');
-    //     cards.forEach((card, index) => {
-    //         card.style.backgroundImage = `url(${arr[index]})`
-    //     });
-    // }
+    const appendData = (modal, pokemon, modalContainer) => {
+        //loading modal content
+        let dataContainer = document.createElement('div');
+        dataContainer.classList.add('modal-data-container');
+        let height = document.createElement('p');
+        height.innerHTML = `height - ${pokemon.height}`;
+        let types = document.createElement('p');
+        types.innerHTML = `powers - ${pokemon.types[0].type.name}`;
+        let exit = document.createElement('button');
+        exit.classList.add('close');
+        exit.innerHTML = 'close';
+
+        dataContainer.appendChild(height);
+        dataContainer.appendChild(types);
+        modal.appendChild(exit);
+        modal.appendChild(dataContainer);
+        modalContainer.style.navIndex = '1';
+
+        setTimeout(() => {
+            dataContainer.style.opacity = '1';
+        }, 50);
+
+        //implementing a function to close the modal inside my appendData function
+        const closeModal = (e) => {
+            if (e.target !== modalContainer && e.target !== exit && e.key !== 'Escape') {
+                return;
+            }
+            modalContainer.style.height = '10vh';
+            setTimeout(() => {
+                modalContainer.style.position = 'relative';
+            }, 250);
+            modal.remove();
+            exit.remove();
+        };
+
+        //eventlisteners for closing the modal
+        exit.addEventListener('click', closeModal);
+        modalContainer.addEventListener('click', closeModal);
+        document.addEventListener('keydown', closeModal);
+    };
 
     return {
         add: add,
@@ -144,7 +202,5 @@ pokemonList.loadList().then(() => {
             pokemon.types = assignObj.types;
         }
         pokemonList.addListItem(pokemon);
-        // pokemonList.loadDetails(pokemon);
     });
 });
-
