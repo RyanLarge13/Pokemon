@@ -129,6 +129,20 @@ const pokemonList = (() => {
 
 pokemonList.loadList().then(() => {
     pokemonList.getAll().forEach((pokemon) => {
+        let assignObj = {
+            name: 'Anonymous Pokemon',
+            height: 'Unknown height',
+            types: 'No known types'
+        };
+        if (pokemon.name === undefined) {
+            pokemon.name = assignObj.name;
+        }
+        if (pokemon.height === undefined) {
+            pokemon.height = assignObj.height;
+        }
+        if (pokemon.types === undefined) {
+            pokemon.types = assignObj.types;
+        }
         pokemonList.addListItem(pokemon);
         // pokemonList.loadDetails(pokemon);
     });
