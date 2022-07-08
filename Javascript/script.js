@@ -1,48 +1,19 @@
 //IIFE function
 const pokemonList = (() => {
     //list of pokemon
-    let pokemon = [
-        {
-            name: 'Bulbasaur',
-            height: 0.7,
-            types: ['grass', 'poison']
-        },
-        {
-            name: 'Charizard',
-            height: 1.7,
-            types: ['fire', 'flying']
-        },
-        {
-            name: 'Arcinine',
-            height: 1.9,
-            types: ['fire']
-        },
-        {  
-            name: 'Alakazam',
-            height: 1.5,
-            types: ['psychic']
-        },
-        {
-            name: 'Zapdos',
-            height: 1.6,
-            types: ['electric', 'flying']
-        },
-        {
-            name: 'Kyogre',
-            height: 4.5,
-            types: ['water']
-        },
-    ];
+    let pokemon = [];
+    //apiURL
+    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     //begin functions for handling dom minipulation and pokemon objects
     const add = (obj) => {
-        let keys1 = Object.keys(pokemon[0]);
+        let keys1 = ['name', 'height', 'types'];
         let keys2 = Object.keys(obj);
-        const equal = keys1.every(value => keys2.find(key => key === value));
-        if (typeof(obj) !== 'object' || !equal) {
+        const equal = keys1.some(value => keys2.find(key => key === value));
+        if (typeof(obj) !== 'object' || Array.isArray(obj) || !equal) {
             return;
         } else {
-        pokemon.push(obj);
+            pokemon.push(obj);
         }
     };
 
@@ -54,7 +25,7 @@ const pokemonList = (() => {
     const filter = (string) => {
         pokemon.filter(name => {
             if (name.name === string) {
-                console.log(name)
+                console.log(name);
             }
         });
     };
@@ -71,7 +42,56 @@ const pokemonList = (() => {
         card.appendChild(cardBtn);
 
         btnEvent(pokemon, cardBtn);
-    }
+    };
+
+    //loadList and loadDetails functions for fetching pokemon data
+    const loadList = () => {
+        showLoadingMessage();
+        return fetch(apiUrl).then((response) => {
+            return response.json();
+        }).then((json) => {
+            json.results.forEach((item) => {
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url,
+                };
+                add(pokemon);
+            });
+            hideLoadingMessage();
+        }).catch((e) => {
+            console.error(e);
+        });
+    };
+
+    const loadDetails = (item) => {
+        showLoadingMessage();
+        let url = item.detailsUrl;
+        return fetch(url).then((response) => {
+            return response.json();
+        }).then((details) => {
+            item.imageUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types;
+            hideLoadingMessage();
+            // addImage(item.imageUrl);
+        }).catch((e) => {
+            console.error(e);
+        });
+    };
+
+    //loading message functions for bonus tasks
+    const showLoadingMessage = () => {
+        let message = document.createElement('div');
+        message.classList.add('loading-message');
+        message.innerHTML = 'Loading...'
+        let dataContainer = document.querySelector('.data-container');
+        dataContainer.appendChild(message);
+    };
+
+    const hideLoadingMessage = () => {
+        let message = document.querySelector('.loading-message');
+        message.remove();
+    };
 
     //adding an eventlistener to each button and when fired calling showDetails();
     const btnEvent = (pokemon, cardBtn) => {
@@ -81,8 +101,20 @@ const pokemonList = (() => {
     };
 
     const showDetails = (pokemon) => {
-        console.log(pokemon);
+        loadDetails(pokemon).then(() => {
+            console.log(pokemon);
+        });
     };
+
+    // const addImage = (image) => {
+    //     let arr = []
+    //     arr.push(image)
+    //     console.log(arr)
+    //     let cards = document.querySelectorAll('.card');
+    //     cards.forEach((card, index) => {
+    //         card.style.backgroundImage = `url(${arr[index]})`
+    //     });
+    // }
 
     return {
         add: add,
@@ -90,11 +122,15 @@ const pokemonList = (() => {
         filter: filter,
         addListItem: addListItem,
         showDetails: showDetails,
+        loadList: loadList,
+        loadDetails: loadDetails,
     };
 })();
 
-//forEach loop calling the addListItem function and initiating dynamic dom elemetns for pokemon
-pokemonList.getAll().forEach((obj) => {
-    pokemonList.addListItem(obj)
+pokemonList.loadList().then(() => {
+    pokemonList.getAll().forEach((pokemon) => {
+        pokemonList.addListItem(pokemon);
+        // pokemonList.loadDetails(pokemon);
+    });
 });
 

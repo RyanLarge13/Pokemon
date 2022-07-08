@@ -66,30 +66,8 @@ input {
     border-radius: 1em;
     background-color: #eee;
     transition: all 250ms ease-in-out;
-}
-.card:nth-child(1) {
-    background-image: url(/Images/bulbasaur.jpg);
-}
-.card:nth-child(2) {
-    background-image: url(/Images/charizard.jpg);
-}
-.card:nth-child(3) {
-    background-image: url(/Images/arcinine.jpg);
-    background-size: cover;
-}
-.card:nth-child(4) {
-    background-image: url(/Images/alakazam.jpg);
     background-position: center;
-}
-.card:nth-child(5) {
-    background-image: url(/Images/zapdos.webp);
     background-size: cover;
-    background-position: center;
-}
-.card:nth-child(6) {
-    background-image: url(/Images/kyogre.jpg);
-    background-size: cover;
-    background-position: left;
 }
 .card:hover {
     transform: scale(1.1);
@@ -121,6 +99,15 @@ input {
     color: #fff;
     background-color: #000;
     box-shadow: 0 0 .5em .1em #000;
+}
+.data-container h2 {
+    display: none;
+}
+.loading-message {
+    position: absolute;
+    inset: all;
+    width: 10%;
+    height: 10%;
 }
 
 
