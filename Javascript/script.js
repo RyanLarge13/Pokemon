@@ -33,6 +33,7 @@ const pokemonList = (() => {
         });
     };
 
+    //function for card filters
     const addCard = (pokemon) => {
         let cards = document.querySelectorAll('.card');
         cards.forEach((card) => {
