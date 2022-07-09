@@ -25,20 +25,47 @@ const pokemonList = (() => {
     const filter = (string) => {
         pokemon.filter(name => {
             if (name.name === string) {
-                console.log(name);
+                addCard(name);
+            }
+            if (string === '') {
+                addListItem(name)
             }
         });
     };
 
-    //creating the list of cards in the dom and buttons to go with them
-    const addListItem = (pokemon) => {
-        
+    const addCard = (pokemon) => {
+        let cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            card.remove();
+        });
+
         let cardContainer = document.querySelector('.card-container');
         let card = document.createElement('div');
         card.classList.add('card');
         let cardBtn = document.createElement('button');
         cardBtn.innerText = `${pokemon.name}`;
         cardBtn.classList.add('btn');
+
+        cardContainer.appendChild(card);
+        card.appendChild(cardBtn);
+
+        //chaining promise for card images on load
+        loadDetails(pokemon).then(() => {
+            card.style.backgroundImage = `url(${pokemon.imageUrl})`; 
+        });
+
+        btnEvent(pokemon, cardBtn);
+    }
+
+    //creating the list of cards in the dom and buttons to go with them
+    const addListItem = (pokemon) => {
+        let cardContainer = document.querySelector('.card-container');
+        let card = document.createElement('div');
+        card.classList.add('card');
+        let cardBtn = document.createElement('button');
+        cardBtn.innerText = `${pokemon.name}`;
+        cardBtn.classList.add('btn');
+
         cardContainer.appendChild(card);
         card.appendChild(cardBtn);
 
@@ -185,7 +212,15 @@ const pokemonList = (() => {
     };
 })();
 
-pokemonList.loadList().then(() => {
+let form = document.querySelector('form');
+let search = document.querySelector('#search');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let value = search.value;
+    pokemonList.filter(value);
+});
+
+    pokemonList.loadList().then(() => {
     pokemonList.getAll().forEach((pokemon) => {
         let assignObj = {
             name: 'Anonymous Pokemon',
