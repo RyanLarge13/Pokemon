@@ -22,16 +22,6 @@ const pokemonList = (() => {
     };
 
     //for future search bar at top of page
-    // const filter = (string) => {
-    //     pokemon.filter((poke) => {
-    //         if (poke.name === string) {
-    //             addCard(poke);
-    //         }
-    //         if (string === '') {
-    //             addListItem(poke)
-    //         }
-    //     });
-    // };
     const filter = (string) => {
         pokemon.filter((poke) => {
             let match = poke.name.includes(string);
