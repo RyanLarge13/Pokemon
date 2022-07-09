@@ -22,13 +22,30 @@ const pokemonList = (() => {
     };
 
     //for future search bar at top of page
+    // const filter = (string) => {
+    //     pokemon.filter((poke) => {
+    //         if (poke.name === string) {
+    //             addCard(poke);
+    //         }
+    //         if (string === '') {
+    //             addListItem(poke)
+    //         }
+    //     });
+    // };
     const filter = (string) => {
-        pokemon.filter(name => {
-            if (name.name === string) {
-                addCard(name);
+        pokemon.filter((poke) => {
+            let match = poke.name.includes(string);
+            if (match && string !== '') {
+                addCard(poke);
             }
             if (string === '') {
-                addListItem(name)
+                let cards = document.querySelectorAll('.card');
+                cards.forEach((card) => {
+                    card.remove();
+                });
+                setTimeout(() => {
+                    addListItem(poke);
+                }, 1);
             }
         });
     };
@@ -213,9 +230,8 @@ const pokemonList = (() => {
     };
 })();
 
-let form = document.querySelector('form');
 let search = document.querySelector('#search');
-form.addEventListener('submit', (e) => {
+search.addEventListener('keyup', (e) => {
     e.preventDefault();
     let value = search.value;
     pokemonList.filter(value);
