@@ -133,8 +133,6 @@ const pokemonList = (() => {
     const showDetails = (pokemon) => {
        
         loadDetails(pokemon).then(() => {
-            let modalContainer = document.querySelector('.modal');
-            let modal = document.querySelector('.modal-dialog');
             let modalContent = document.querySelector('.modal-content');
             let modalTitle = document.querySelector('.modal-title');
             setTimeout(() => {
@@ -172,7 +170,7 @@ const pokemonList = (() => {
 let search = document.querySelector('#search');
 search.addEventListener('keyup', (e) => {
     e.preventDefault();
-    let value = search.value;
+    let value = search.value.toLowerCase();
     pokemonList.filter(value);
 });
 
