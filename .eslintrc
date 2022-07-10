@@ -1,0 +1,12 @@
+{
+    "env": {
+        "es6": true,
+        "broswer": true
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "rules": {
+        "quotes": ["error", "single"]
+    }
+}
