@@ -3,11 +3,11 @@ const pokemonList = (() => {
     //list of pokemon
     let pokemon = [];
     //apiURL
-    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+    const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     //begin functions for handling dom minipulation and pokemon objects
     const add = (obj) => {
-        let keys1 = ['name', 'height', 'types'];
+        const keys1 = ['name', 'height', 'types'];
         let keys2 = Object.keys(obj);
         const equal = keys1.some(value => keys2.find(key => key === value));
         if (typeof(obj) !== 'object' || Array.isArray(obj) || !equal) {
@@ -24,12 +24,12 @@ const pokemonList = (() => {
     //for future search bar at top of page
     const filter = (string) => {
         pokemon.filter((poke) => {
-            let match = poke.name.includes(string);
+            const match = poke.name.includes(string);
             if (match && string !== '') {
                 addCard(poke);
             }
             if (string === '') {
-                let cards = document.querySelectorAll('.card');
+                const cards = document.querySelectorAll('.list-group');
                 cards.forEach((card) => {
                     card.remove();
                 });
@@ -42,20 +42,20 @@ const pokemonList = (() => {
 
     //function for card filters
     const addCard = (pokemon) => {
-        let cards = document.querySelectorAll('.card');
+        const cards = document.querySelectorAll('.list-group');
         cards.forEach((card) => {
             card.remove();
         });
 
-        let cardContainer = document.querySelector('.card-container');
-        let card = document.createElement('div');
-        card.classList.add('card');
-        let cardBtn = document.createElement('button');
+        const cardContainer = document.querySelector('.card-container');
+        const card = document.createElement('div');
+        const cardBtn = document.createElement('button');
+        card.classList.add('list-group');
         cardBtn.innerText = `${pokemon.name}`;
         cardBtn.setAttribute('type', 'button');
         cardBtn.setAttribute('data-toggle', 'modal');
         cardBtn.setAttribute('data-target', '#myModal');
-        cardBtn.classList.add('btn-dark');
+        cardBtn.classList.add('list-group-item');
         cardContainer.appendChild(card);
         card.appendChild(cardBtn);
 
@@ -69,15 +69,15 @@ const pokemonList = (() => {
 
     //creating the list of cards in the dom and buttons to go with them
     const addListItem = (pokemon) => {
-        let cardContainer = document.querySelector('.card-container');
-        let card = document.createElement('div');
-        card.classList.add('card');
-        let cardBtn = document.createElement('button');
+        const cardContainer = document.querySelector('.card-container');
+        const card = document.createElement('div');
+        const cardBtn = document.createElement('button');
+        card.classList.add('list-group');
         cardBtn.innerText = `${pokemon.name}`;
         cardBtn.setAttribute('type', 'button');
         cardBtn.setAttribute('data-toggle', 'modal');
         cardBtn.setAttribute('data-target', '#myModal');
-        cardBtn.classList.add('btn-dark');
+        cardBtn.classList.add('list-group-item');
         cardContainer.appendChild(card);
         card.appendChild(cardBtn);
 
@@ -133,8 +133,8 @@ const pokemonList = (() => {
     const showDetails = (pokemon) => {
        
         loadDetails(pokemon).then(() => {
-            let modalContent = document.querySelector('.modal-content');
-            let modalTitle = document.querySelector('.modal-title');
+            const modalContent = document.querySelector('.modal-content');
+            const modalTitle = document.querySelector('.modal-title');
             setTimeout(() => {
                 modalContent.style.backgroundImage = `url(${pokemon.imageUrl})`;
                 setTimeout(() => {
@@ -167,7 +167,7 @@ const pokemonList = (() => {
     };
 })();
 
-let search = document.querySelector('#search');
+const search = document.querySelector('#search');
 search.addEventListener('keyup', (e) => {
     e.preventDefault();
     let value = search.value.toLowerCase();
@@ -176,7 +176,7 @@ search.addEventListener('keyup', (e) => {
 
     pokemonList.loadList().then(() => {
     pokemonList.getAll().forEach((pokemon) => {
-        let assignObj = {
+        const assignObj = {
             name: 'Anonymous Pokemon',
             height: 'Unknown height',
             types: 'No known types'
@@ -193,3 +193,12 @@ search.addEventListener('keyup', (e) => {
         pokemonList.addListItem(pokemon);
     });
 });
+
+// this one is for you Sophek and for you Clint!!!!
+const cardContainer = document.querySelector('.card-container');
+
+const scrollSidways = (e) => {
+    cardContainer.scrollLeft += e.deltaY;
+};
+
+cardContainer.addEventListener('wheel', scrollSidways);
